@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles.css">
+         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    </head>
+    <body>
+        <% if(req.isAuthenticated()){ %>
+        <title><%- req.user.username%>'s infos.</title>
+        <%
+     var verif;
+        if(req.user.verified === false){
+            verif = "non";
+        }
+        if(req.user.verified === true){
+            verif = "vérifié";
+        }
+        
+        var a2f;
+        if(req.user.mfa_enabled === false){
+            a2f = "désactivé";
+        }
+        if(req.user.mfa_enabled === true){
+            a2f = "activé";
+        } 
+        %>
+
+    <div id="nav">
+        <ul>
+            <li><a class="active" href="/">Actualiser <i class="fas fa-sync"></i></a></li>
+            <li><a href="info">Raw datas <i class="fas fa-database"></i></a></li>
+            <li><a href="https://github.com/MarcosPizza">Marco <i class="fab fa-github"></i></a></li>
+            <li><a href="logout">Déconnexion <i class="fas fa-door-open"></i></a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+
+        <div class="avatar">
+        <img src="https://cdn.discordapp.com/avatars/<%-req.user.id%>/<%-req.user.avatar%>.png?size=128">
+        </div>
+
+        <div class="ui">
+        <span>Pseudo : <%-req.user.username +"#"+ req.user.discriminator%></span>
+        <br>
+        <span>Adresse mail : <%- req.user.email %></span>
+        <br>
+        <span>Pays : <%- req.user.locale %></span>
+        <br>
+        <span>Double authentification : <%- a2f %></span>
+        <br>
+        <span>Vérification par mail : <%- verif %></span>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+    <div id="rect" style="margin-left: 50%; transform: translateX(-55%);"><br>Serveurs</div>
+    <br><br>
+    <center>
+        <table id="t01">
+        <tr>
+            <th>Nom</th>
+            <th>id</th> 
+            <th>Niveau de perm</th>
+            <th>Créateur</th>
+        </tr>
+        <% req.user.guilds.forEach(guild => { %>
+        <tr>
+            <td><%- guild.name %></td>
+            <td><%- guild.id %></td>
+            <td><%- guild.permissions %></td>
+            <td><%- guild.owner? 'Oui' : 'Non' %></td>
+        </tr>
+        <% }) %>
+</table>
+<br><br>
+</center>
+<div id="rect" style="margin-left: 50%; transform: translateX(-55%);"><br>Comptes liés</div>
+<center>
+<br><br>
+<table id="t01">
+        <tr>
+            <th>Nom</th>
+            <th>Type de compte</th> 
+            <th>Vérifié</th>
+            <th>Afficher sur le profil</th>
+        </tr>
+        <% req.user.connections.forEach(conn => { %>
+        <tr>
+            <td><%- conn.name %></td>
+            <td><%- conn.type %></td>
+            <td><%- conn.verified? 'Oui' : 'Non' %></td>
+            <td><%- conn.show_activity? 'Oui' : 'Non' %></td>
+        </tr>
+        <% }) %>
+</table>
+</center>
+</div>
+<% } if(!req.isAuthenticated()){ %>
+        <div id="authdiv">
+        <a class="auth" href="https://dashboardtest.marco-dev.fr/auth">Auth</a>
+        </div>
+        <% } %>
+        
+        </div>
+    </body>
+</html>
