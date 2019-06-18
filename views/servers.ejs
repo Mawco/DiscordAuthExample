@@ -40,19 +40,26 @@
         <img src="https://cdn.discordapp.com/avatars/<%-req.user.id%>/<%-req.user.avatar%>.png?size=128">
         </div>
 
-        <div class="ui">
-        <span>Pseudo : <%-req.user.username +"#"+ req.user.discriminator%></span>
-        <br>
-        <span>Adresse mail : <%- req.user.email %></span>
-        <br>
-        <span>Pays : <%- req.user.locale %></span>
-        <br>
-        <span>Double authentification : <%- a2f %></span>
-        <br>
-        <span>Vérification par mail : <%- verif %></span>
-        <br>
-        <br>
-        <br>
+    <br><br>
+    <center>
+        <table id="t01">
+        <tr>
+            <th>Nom</th>
+            <th>id</th> 
+            <th>Niveau de perm</th>
+            <th>Créateur</th>
+        </tr>
+        <% req.user.guilds.forEach(guild => { %>
+        <tr>
+            <td><img class="servericon" src="https://cdn.discordapp.com/icons/<%-guild.id%>/<%-guild.icon%>.png?size=128" width="25px;"> <%- guild.name %></td>
+            <td><%- guild.id %></td>
+            <td><%- guild.permissions %></td>
+            <td><%- guild.owner? 'Oui' : 'Non' %></td>
+        </tr>
+        <% }) %>
+</table>
+<br><br>
+</center>
 </div>
 
 

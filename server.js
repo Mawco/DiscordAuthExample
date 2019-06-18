@@ -4,12 +4,11 @@ var express  = require('express')
   , Strategy = require('passport-discord').Strategy
   , app      = express()
   , path = require('path')
-  , config = require('./config');
-
-passport.serializeUser(function(user, done) {
+  , config = require("./config");
+passport.serializeUser((user, done) =>{
   done(null, user);
 });
-passport.deserializeUser(function(obj, done) {
+passport.deserializeUser((obj, done) =>{
   done(null, obj);
 });
 
@@ -17,10 +16,10 @@ var scopes = ['identify', 'email', 'connections', 'guilds'];
 
 passport.use(new Strategy({
     clientID: config.AppID,
-    clientSecret: config.clientSecret,
-    callbackURL: config.CallbackURL,
+    clientSecret: config.ClientSecret,
+    callbackURL: config.callbackURL,
     scope: scopes
-}, function(accessToken, refreshToken, profile, done) {
+}, (accessToken, refreshToken, profile, done) =>{
     process.nextTick(function() {
         return done(null, profile);
     });
@@ -43,19 +42,26 @@ app.get('/callback',
 );
 
 
-app.get('/logout', function(req, res) {
+app.get('/logout', (req, res) =>{
     req.logout();
     res.redirect('/');
 });
-app.get('/info', checkAuth, function(req, res) {
+app.get('/info', checkAuth, (req, res) =>{
     //console.log(req.user)
     res.json(req.user);
 });
 
-app.get('/', function(req, res) {
-        res.render('index', { req: req, res: res });
+app.get('/', (req, res) =>{
+    res.render('index', { req: req, res: res });
 });
 
+app.get('/servers', (req, res) =>{
+    res.render('servers', { req: req, res: res });
+});
+
+app.get('/linkedAccounts', (req, res) =>{
+    res.render('linkedAccounts', {req: req, res: res });
+});
 
 function checkAuth(req, res, next) {
     if (req.isAuthenticated()) return next();
@@ -63,7 +69,7 @@ function checkAuth(req, res, next) {
 }
 
 
-app.listen(5000, function (err) {
+app.listen(5000, (err) =>{
     if (err) return console.log(err)
     console.log('Listening at http://localhost:5000/')
 })

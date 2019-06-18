@@ -40,21 +40,27 @@
         <img src="https://cdn.discordapp.com/avatars/<%-req.user.id%>/<%-req.user.avatar%>.png?size=128">
         </div>
 
-        <div class="ui">
-        <span>Pseudo : <%-req.user.username +"#"+ req.user.discriminator%></span>
-        <br>
-        <span>Adresse mail : <%- req.user.email %></span>
-        <br>
-        <span>Pays : <%- req.user.locale %></span>
-        <br>
-        <span>Double authentification : <%- a2f %></span>
-        <br>
-        <span>Vérification par mail : <%- verif %></span>
-        <br>
-        <br>
-        <br>
+<center>
+<br><br>
+<table id="t01">
+        <tr>
+            <th>Nom</th>
+            <th>Type de compte</th> 
+            <th>Vérifié</th>
+            <th>Afficher sur le profil</th>
+        </tr>
+        <% req.user.connections.forEach(conn => { %>
+        <tr>
+            <td><%- conn.name %></td>
+            <td><%- conn.type %></td>
+            <td><%- conn.verified? 'Oui' : 'Non' %></td>
+            <td><%- conn.show_activity? 'Oui' : 'Non' %></td>
+        </tr>
+        <% }) %>
+</table>
+</center>
+<br><br>
 </div>
-
 
 <% } if(!req.isAuthenticated()){ %><%-include('includes/auth.ejs') %><%}%>
         
