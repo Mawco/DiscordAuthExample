@@ -120,6 +120,11 @@ ul {
           margin-top: 20px;
       }
 
+      .servericon{
+          border-radius: 50%;
+          border: 1px solid #FFF;
+      }
+
 @media only screen and (max-width: 500px) {
     #authdiv{
         margin-left: 15%;

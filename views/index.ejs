@@ -75,7 +75,7 @@
         </tr>
         <% req.user.guilds.forEach(guild => { %>
         <tr>
-            <td><%- guild.name %></td>
+            <td><img class="servericon" src="https://cdn.discordapp.com/icons/<%-guild.id%>/<%-guild.icon%>.png?size=128" width="25px;"> <%- guild.name %></td>
             <td><%- guild.id %></td>
             <td><%- guild.permissions %></td>
             <td><%- guild.owner? 'Oui' : 'Non' %></td>
