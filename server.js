@@ -7,33 +7,31 @@ var express  = require('express')
   , config = require('./config');
 
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
-
-
-var scopes = ['identify', 'email', 'connections', 'guilds'];
-
-
-passport.use(new Strategy({
-    clientID: config.AppID,
-    clientSecret: config.clientSecret,
-    callbackURL: config.CallbackURL,
-    scope: scopes
-}, function(accessToken, refreshToken, profile, done) {
-    process.nextTick(function() {
-        return done(null, profile);
-    });
-}));
+  passport.serializeUser(function(user, done) {
+    done(null, user);
+  });
+  passport.deserializeUser(function(obj, done) {
+    done(null, obj);
+  });
+  
+  var scopes = ['identify', 'email', 'connections', 'guilds', 'guilds.join'];
+  
+  passport.use(new Strategy({
+      clientID: config.AppID,
+      clientSecret: config.ClientSecret,
+      callbackURL: config.CallbackURL,
+      scope: scopes
+  }, function(accessToken, refreshToken, profile, done) {
+      process.nextTick(function() {
+          return done(null, profile);
+      });
+  }));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 
+  
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
