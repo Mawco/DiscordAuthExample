@@ -1,0 +1,15 @@
+main > .container {
+    padding: 60px 15px 0;
+}
+
+body {
+    background: #111111;
+}
+
+.navbar {
+    background: #1c1c1c;
+}
+
+.footer {
+    background: #1c1c1c;
+}

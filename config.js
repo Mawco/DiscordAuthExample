@@ -1,8 +1,10 @@
 const config = {
-    "ClientSecret": "ENTREZ LE CLIENT SECRET ICI",
+  ClientSecret: '68Weht7Ww3mI1N2noK6zboczmhU-cuKs',
 
-    "AppID": "ENTREZ L'ID DE L'APP ICI",
+  AppID: '608027319960993869',
 
-    "CallbackURL": "http://localhost:5000/callback"
+  CallbackURL: 'http://109.215.5.63:3000/callback',
+
+  scopes: ['identify', 'email', 'connections', 'guilds']
 };
 module.exports = config;

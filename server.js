@@ -1,78 +1,76 @@
-var express  = require('express')
-  , session  = require('express-session')
-  , passport = require('passport')
-  , Strategy = require('passport-discord').Strategy
-  , app      = express()
-  , path = require('path')
-  , config = require('./config');
+const express = require('express');
+const session = require('express-session');
+const passport = require('passport');
+const Strategy = require('passport-discord').Strategy;
+const app = express();
+const path = require('path');
+const config = require('./config');
 
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
 
-  passport.serializeUser(function(user, done) {
-    done(null, user);
+passport.use(new Strategy({
+  clientID: config.AppID,
+  clientSecret: config.ClientSecret,
+  callbackURL: config.CallbackURL,
+  scope: config.scopes
+}, (accessToken, refreshToken, profile, done) => {
+  process.nextTick(() => {
+    return done(null, profile);
   });
-  passport.deserializeUser(function(obj, done) {
-    done(null, obj);
-  });
-  
-  var scopes = ['identify', 'email', 'connections', 'guilds', 'guilds.join'];
-  
-  passport.use(new Strategy({
-      clientID: config.AppID,
-      clientSecret: config.ClientSecret,
-      callbackURL: config.CallbackURL,
-      scope: scopes
-  }, function(accessToken, refreshToken, profile, done) {
-      process.nextTick(function() {
-          return done(null, profile);
-      });
-  }));
+}));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 
-  
 app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
 }));
-app.use(passport.initialize());
-app.use(passport.session());
-app.get('/auth', passport.authenticate('discord', { scope: scopes }), function(req, res) {});
-app.get('/callback',
-    passport.authenticate('discord', { failureRedirect: '/' }), function(req, res) { res.redirect('/') } // auth success
-);
 
-
-app.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/');
-});
-app.get('/info', checkAuth, function(req, res) {
-    //console.log(req.user)
-    res.json(req.user);
+app.use(passport.initialize(null));
+app.use(passport.session(null));
+app.get('/auth', passport.authenticate('discord', { scope: config.scopes }), () => null);
+app.get('/callback', passport.authenticate('discord', { failureRedirect: '/' }), (req, res) => {
+  // do something (or not)
+  // (e.g: register the user in your db)
+  res.redirect('/');
 });
 
-app.get('/', function(req, res) {
-    res.render('index', { req: req, res: res });
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
+app.get('/info', checkAuth, (req, res) => {
+  res.json(req.user);
 });
 
-app.get('/servers', function(req, res) {
-    res.render('servers', { req: req, res: res });
+app.get('/', checkAuth, (req, res) => {
+  res.render('index', { req: req, res: res });
 });
 
-app.get('/linkedAccounts', function(req, res) {
-    res.render('linkedAccounts', {req: req, res: res });
+app.get('/servers', (req, res) => {
+  res.render('servers', { req: req, res: res });
+});
+
+app.get('/connections', (req, res) => {
+  res.render('connections', { req: req, res: res });
 });
 
 function checkAuth(req, res, next) {
-    if (req.isAuthenticated()) return next();
-    res.send('not logged in :(');
+  if (req.isAuthenticated()) return next();
+  res.redirect('/auth')
 }
 
 
-app.listen(5000, function(err) {
-    if (err) return console.log(err)
-    console.log('Listening at http://localhost:5000/')
-})
+app.listen(3000, (err) => {
+  if (err) return console.log(err)
+  console.log('Listening at http://localhost:3000/');
+});

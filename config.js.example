@@ -1,0 +1,10 @@
+const config = {
+  'ClientSecret': '',
+
+  'AppID': '',
+
+  'CallbackURL': 'http://localhost:5000/callback',
+
+  scopes: ['identify', 'email', 'connections', 'guilds']
+};
+module.exports = config;

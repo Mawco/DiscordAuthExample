@@ -1,0 +1,113 @@
+{
+  "extends": [
+    "eslint:recommended"
+  ],
+  "env": {
+    "node": true,
+    "es2020": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 11
+  },
+  "rules": {
+    "brace-style": [
+      "error",
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
+    ],
+    "block-spacing": "error",
+    "camelcase": [
+      "error"
+    ],
+    "comma-dangle": [
+      "error",
+      "never"
+    ],
+    "comma-spacing": "error",
+    "comma-style": [
+      "error",
+      "last"
+    ],
+    "curly": [
+      "error",
+      "multi-line",
+      "consistent"
+    ],
+    "dot-location": [
+      "error",
+      "property"
+    ],
+    "handle-callback-err": "off",
+    "indent": [
+      "error",
+      2
+    ],
+    "keyword-spacing": [
+      "error",
+      {
+        "before": true,
+        "after": true
+      }
+    ],
+    "max-nested-callbacks": [
+      "error",
+      {
+        "max": 4
+      }
+    ],
+    "no-undef": "off",
+    "no-console": "off",
+    "no-empty-function": "error",
+    "no-floating-decimal": "error",
+    "no-inline-comments": "error",
+    "no-lonely-if": "error",
+    "no-useless-escape": "off",
+    "no-multi-spaces": "error",
+    "no-multiple-empty-lines": [
+      "error"
+    ],
+    "no-shadow": [
+      "error",
+      {
+        "allow": [
+          "err",
+          "resolve",
+          "reject"
+        ]
+      }
+    ],
+    "no-trailing-spaces": "error",
+    "no-redeclare": "off",
+    "no-var": "off",
+    "no-unused-vars": "off",
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "one-var": [
+      "error",
+      "never"
+    ],
+    "prefer-const": "error",
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "space-before-blocks": "error",
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ],
+    "space-in-parens": "error",
+    "space-infix-ops": "error",
+    "space-unary-ops": "error",
+    "spaced-comment": "error",
+    "yoda": "error"
+  }
+}
