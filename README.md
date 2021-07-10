@@ -8,7 +8,7 @@
 
 Tout d'abord il faudra créer une app sur le portail développeur de Discord.
 
-En suite il faudra récupérer l'ID ainsi que le Client Secret et les entrer dans le fichier de configuration :>
+En suite il faudra récupérer l'ID ainsi que le Client Secret et les entrer dans le fichier de configuration (oubliez pas de renommer le `config.js.example` en `config.js`) :>
 
 **Installation**
 
