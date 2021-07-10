@@ -13,3 +13,24 @@ body {
 .footer {
     background: #1c1c1c;
 }
+
+.bg-dark {
+    background: #1a1a1a !important;
+}
+
+.card-shadow {
+    box-shadow: rgba(0, 0, 0, 0.2) 0 5px 1px;
+}
+
+.display-on-hover {
+    filter: blur(5px);
+}
+
+.display-on-hover:hover {
+    filter: blur(0);
+    transition: ease-in-out all .1s;
+}
+
+.table-dark {
+    --bs-table-bg: transparent !important;
+}

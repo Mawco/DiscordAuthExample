@@ -1,70 +1,81 @@
-<!DOCTYPE html>
+<!DOCTYPE html class="h-100">
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="styles.css">
-         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    </head>
-    <body>
-        <% if(req.isAuthenticated()){ %>
-        <title><%- req.user.username%>'s infos.</title>
-        <%
-     var verif;
-        if(req.user.verified === false){
-            verif = "non";
-        }
-        if(req.user.verified === true){
-            verif = "vérifié";
-        }
-        
-        var a2f;
-        if(req.user.mfa_enabled === false){
-            a2f = "désactivé";
-        }
-        if(req.user.mfa_enabled === true){
-            a2f = "activé";
-        } 
-        %>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body class="d-flex flex-column h-100 text-light">
 
-<%- include("includes/nav.ejs") %>
-
-    <div class="content">
-
-        <div class="avatar">
-        <img src="https://cdn.discordapp.com/avatars/<%-req.user.id%>/<%-req.user.avatar%>.png?size=128">
+<header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/servers">Servers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/connections">Connections</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav d-flex">
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" aria-current="page" href="/logout">Log out</a>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </nav>
+</header>
 
-    <br><br>
-    <center>
-        <table id="t01">
-        <tr>
-            <th>Nom</th>
-            <th>id</th> 
-            <th>Niveau de perm</th>
-            <th>Créateur</th>
-        </tr>
-        <% req.user.guilds.forEach(guild => { %>
-        <tr>
-            <td><img class="servericon" src="https://cdn.discordapp.com/icons/<%-guild.id%>/<%-guild.icon%>.png?size=128" width="25px;"> <%- guild.name %></td>
-            <td><%- guild.id %></td>
-            <td><%- guild.permissions %></td>
-            <td><%- guild.owner? 'Oui' : 'Non' %></td>
-        </tr>
-        <% }) %>
-</table>
-<br><br>
-</center>
-</div>
+<!-- Begin page content -->
+<main class="flex-shrink-0">
+    <div class="container text-center">
+        <img class="rounded-circle shadow mt-5" src="https://cdn.discordapp.com/avatars/<%-req.user.id%>/<%-req.user.avatar%>.<%-req.user.premium_type === 0 ? 'webp' : 'gif'%>?size=256" alt="avatar">
+        <h1 class="mt-3"><%-req.user.username%><span class="text-muted">#<%-req.user.discriminator%></span></h1>
+    </div>
 
 
-<% } if(!req.isAuthenticated()){ %><%-include('includes/auth.ejs') %><%}%>
-        
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <%for (const server of req.user.guilds) {%>
+            <div class="col-lg-4 col-sm-4">
+                <div class="card text-white bg-dark mb-3 rounded card-shadow">
+                    <div class="card-body">
+                        <img class="rounded-circle shadow" height="200" src="https://cdn.discordapp.com/icons/<%-server.id%>/<%-server.icon%>.webp?size=256" alt="<%-server.name%>'s icon">
+                        <h4 class="card-title my-3 mx-2" style="max-height: 4rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap" data-bs-toggle="tooltip" data-bs-placement="top" title="<%-server.name%>">
+                            <%-server.name%>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <%}%>
         </div>
-    </body>
+    </div>
+</main>
+
+<footer class="footer mt-auto py-3">
+    <div class="container text-center">
+        <span class="text-muted">Made with <i class='bx bxs-heart text-danger'></i> by <a href="https://github.com/Mawco" target="_blank" class="link-danger">Marco</a>.</span>
+    </div>
+</footer>
+
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+</body>
 </html>

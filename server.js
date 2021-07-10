@@ -44,7 +44,7 @@ app.get('/callback', passport.authenticate('discord', { failureRedirect: '/' }),
 });
 
 
-app.get('/logout', (req, res) => {
+app.get('/logout', checkAuth, (req, res) => {
   req.logout();
   res.redirect('/');
 });
@@ -56,11 +56,11 @@ app.get('/', checkAuth, (req, res) => {
   res.render('index', { req: req, res: res });
 });
 
-app.get('/servers', (req, res) => {
+app.get('/servers', checkAuth, (req, res) => {
   res.render('servers', { req: req, res: res });
 });
 
-app.get('/connections', (req, res) => {
+app.get('/connections', checkAuth, (req, res) => {
   res.render('connections', { req: req, res: res });
 });
 
