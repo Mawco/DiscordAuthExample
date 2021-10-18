@@ -2,6 +2,7 @@
 
 
 ![example](example.gif)
+(il y a des trucs à fix mais j'ai la flemme (´。＿。｀))
 
 ## Setup
 **Discord Developers Portal**
